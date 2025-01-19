@@ -1,8 +1,10 @@
-// server.js
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const multer = require('multer');
+const s3 = require('./auth/awsConfig');
 
 dotenv.config();  // Cargar variables de entorno
 
@@ -113,3 +115,47 @@ app.post('/cursos', (req, res) => {
 
     res.status(201).json(nuevoCurso);
 });
+
+// Configuración de multer
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }, // Máximo 5MB por archivo
+});
+
+// Subir contenido al curso
+app.post('/cursos/:id/contenido', upload.single('archivo'), (req, res) => {
+    const { id } = req.params;
+    const curso = cursos.find(c => c.id === parseInt(id));
+
+    if (!curso) {
+        return res.status(404).json({ mensaje: 'Curso no encontrado' });
+    }
+
+    if (!req.file) {
+        return res.status(400).json({ mensaje: 'Archivo requerido' });
+    }
+
+    const params = {
+        Bucket: 'TU_BUCKET_NAME', // Cambia por el nombre de tu bucket
+        Key: `${id}/${req.file.originalname}`, // Carpeta por ID del curso
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype,
+    };
+
+    s3.upload(params, (err, data) => {
+        if (err) {
+            return res.status(500).json({ mensaje: 'Error subiendo archivo', error: err });
+        }
+        res.status(200).json({ mensaje: 'Archivo subido exitosamente', url: data.Location });
+    });
+});
+//Rutas de clases en vivo y chat
+const clasesEnVivoRoutes = require('./routes/clasesEnVivo');
+const unirseClaseRoutes = require('./routes/unirseClase');
+const chatRoutes = require('./routes/chat');
+
+// Usar las rutas en el servidor
+app.use(clasesEnVivoRoutes);
+app.use(unirseClaseRoutes);
+app.use(chatRoutes);
+
