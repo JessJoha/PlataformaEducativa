@@ -157,6 +157,7 @@ const evaluacionesRoutes = require('./routes/evaluaciones');
 const inscripcionesRoutes = require('./routes/inscripciones');
 const calificacionesRoutes = require('./routes/calificaciones');
 const notificacionesRoutes = require('./routes/notificaciones');
+const comentariosRoutes = require('./routes/comentarios');
 
 // Usar las rutas en el servidor
 app.use(clasesEnVivoRoutes);
@@ -166,3 +167,4 @@ app.use(evaluacionesRoutes);
 app.use(inscripcionesRoutes);
 app.use(calificacionesRoutes);
 app.use(notificacionesRoutes);
+app.use(comentariosRoutes);
