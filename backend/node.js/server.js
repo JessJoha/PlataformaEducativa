@@ -153,9 +153,10 @@ app.post('/cursos/:id/contenido', upload.single('archivo'), (req, res) => {
 const clasesEnVivoRoutes = require('./routes/clasesEnVivo');
 const unirseClaseRoutes = require('./routes/unirseClase');
 const chatRoutes = require('./routes/chat');
+const evaluacionesRoutes = require('./routes/evaluaciones');
 
 // Usar las rutas en el servidor
 app.use(clasesEnVivoRoutes);
 app.use(unirseClaseRoutes);
 app.use(chatRoutes);
-
+app.use(evaluacionesRoutes);
