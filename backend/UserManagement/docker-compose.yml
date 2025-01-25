@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  createUser:
+    build:
+      context: ./createUser  # Directorio donde está el Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET}  # Leer la clave secreta desde .env
+      - ACCESS_TOKEN_EXPIRATION=${ACCESS_TOKEN_EXPIRATION}  # Leer expiración desde .env
+    networks:
+      - user-network
+    volumes:
+      - ./createUser:/app  # Permite la edición sin necesidad de reconstruir
+    restart: always
+
+networks:
+  user-network:
+    driver: bridge
