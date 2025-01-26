@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { deleteUserController } = require('../controllers/deleteUserController'); // Importa el controlador
+const { deleteUserController } = require('../../../controllers/deleteUserController');
 
-// Ruta para eliminar un usuario
-router.delete('/:userId', deleteUserController); // La ruta será accesible desde `/user/:userId`
+
+router.delete('/delete/:userId', deleteUserController);
 
 module.exports = router;

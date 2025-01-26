@@ -1,6 +1,6 @@
 
 const { User } = require('../models/userModel');
-const { generateToken } = require('../config/jwtConfig');
+const { generateToken } = require('../createUser/src/config/jwtConfig');
 const { v4: uuidv4 } = require('uuid');
 
 

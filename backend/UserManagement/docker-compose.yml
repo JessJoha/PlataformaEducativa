@@ -16,6 +16,21 @@ services:
       - ./createUser:/app 
     restart: always
 
+  deleteUser:
+    build:
+      context: ./deleteUser
+    ports:
+      - "3001:3001" 
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET} 
+      - ACCESS_TOKEN_EXPIRATION=${ACCESS_TOKEN_EXPIRATION}
+    networks:
+      - user-network
+    volumes:
+      - ./deleteUser:/app 
+    restart: always
+
 networks:
   user-network:
     driver: bridge

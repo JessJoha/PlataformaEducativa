@@ -2,8 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const sequelize = require('./config/db'); 
 const cors = require('cors');
-const userRoutes = require('./routes/deleteUserRoutes');
-
+const deleteUserRoutes = require('./routes/deleteUserRoutes'); // Importa las rutas
 
 dotenv.config();
 
@@ -13,19 +12,10 @@ const app = express();
 app.use(express.json());
 
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('¡Ocurrió un error!');
-});
+app.use(cors());
 
 
-const corsOptions = {
-  origin: process.env.CORS_ALLOWED_ORIGIN || '*',
-};
-app.use(cors(corsOptions));
-
-
-app.use('/user', userRoutes); 
+app.use('/user', deleteUserRoutes);
 
 
 sequelize.sync()
@@ -37,7 +27,7 @@ sequelize.sync()
   });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  console.log(`Servidor deleteUser corriendo en el puerto ${PORT}`);
 });

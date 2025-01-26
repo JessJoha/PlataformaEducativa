@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createUserController } = require('../controllers/userController'); // Importa el controlador
+const { createUserController } = require('../../../controllers/userController');
 
-// Ruta para crear un nuevo usuario
-router.post('/create', createUserController); // Esta ruta será accesible desde `/user/create`
+
+router.post('/create', createUserController);
 
 module.exports = router;
