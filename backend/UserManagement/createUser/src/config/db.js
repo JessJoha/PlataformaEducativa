@@ -1,17 +1,24 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-// Configura la conexión a la base de datos
-const sequelize = new Sequelize('users_db', 'your-db-username', 'your-db-password', {
-  host: 'your-db-hostname.amazonaws.com',
-  dialect: 'mysql',
-});
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,       
+  process.env.DB_USER,       
+  process.env.DB_PASSWORD,   
+  {
+    host: process.env.DB_HOST, 
+    dialect: 'mysql',         
+  }
+);
+
 
 sequelize.authenticate()
   .then(() => {
     console.log('Conexión a la base de datos establecida con éxito.');
   })
   .catch((err) => {
-    console.error('No se pudo conectar a la base de datos:', err);
+    console.error('No se pudo conectar a la base de datos. Verifica las credenciales y la conectividad:', err);
   });
 
 module.exports = sequelize;

@@ -14,14 +14,14 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true, // Asegura que el correo sea único
+    unique: true, 
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 }, {
-  timestamps: true, // Si deseas que Sequelize maneje createdAt y updatedAt
+  timestamps: true, 
 });
 
-module.exports = User;
+module.exports = { User };

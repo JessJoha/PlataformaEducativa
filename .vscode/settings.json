@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "usersdb.cluster-cueu5sjjjnzn.us-east-1.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "users",
+            "database": "usersdb",
+            "username": "admin_platform"
+        }
+    ]
+}

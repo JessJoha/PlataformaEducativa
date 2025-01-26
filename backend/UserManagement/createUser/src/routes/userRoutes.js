@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createUserController } = require('../controllers/userController');  // Usamos el controlador correcto
+const { createUserController } = require('../controllers/userController'); // Importa el controlador
 
 // Ruta para crear un nuevo usuario
-router.post('/create', createUserController);  // Llamamos directamente al controlador sin necesidad de manejar parámetros aquí
+router.post('/create', createUserController); // Esta ruta será accesible desde `/user/create`
 
 module.exports = router;

@@ -1,20 +1,20 @@
-# Ignorar node_modules
+
 node_modules/
 
-# Ignorar carpetas de base de datos
+
 databases/mysql/
 databases/postgresql/
 databases/mongodb/
 databases/redis/
 
-# Ignorar archivos de logs o de configuración específicos
+
 *.log
 *.env
 
-# Ignorar carpetas de dependencias de backend
+
 backend/nodejs/node_modules/
 backend/python/__pycache__/
 backend/go/bin/
 
-# Ignorar archivos temporales
+
 *.swp
