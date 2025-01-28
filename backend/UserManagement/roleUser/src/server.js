@@ -1,13 +1,14 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const sequelize = require('./config/db'); 
+const sequelize = require('./config/db');
 const cors = require('cors');
-const roleRoutes = require('./routes/roleUserRoutes'); 
-const { initializeRoles } = require('../controllers/roleUserController');
+const roleRoutes = require('./routes/roleUserRoutes');
+const { initializeRoles } = require('../../../controllers/roleUserController');
 
 dotenv.config();
 
 const app = express();
+
 
 app.use(express.json());
 
@@ -21,17 +22,19 @@ app.use(cors(corsOptions));
 app.use('/roles', roleRoutes);
 
 
-sequelize.sync()
-  .then(() => {
-    console.log('Database synced successfully');
-    initializeRoles();
+sequelize
+  .sync({ alter: true }) 
+  .then(async () => {
+    console.log('Base de datos sincronizada correctamente (Roles)');
+    await initializeRoles(); 
+    console.log('Roles inicializados correctamente');
   })
   .catch((err) => {
-    console.error('Error syncing database:', err);
+    console.error('Error al sincronizar la base de datos:', err);
   });
 
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
-  console.log(`RoleUser service running on port ${PORT}`);
+  console.log(`Servidor de Roles corriendo en el puerto ${PORT}`);
 });

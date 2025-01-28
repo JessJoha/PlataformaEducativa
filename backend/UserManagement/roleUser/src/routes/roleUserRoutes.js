@@ -1,10 +1,9 @@
 const express = require('express');
-const { createRole, deleteRole } = require('../../controllers/roleUserController');
+const { getAllRoles, deleteRole} = require('../../../controllers/roleUserController');
 
 const router = express.Router();
 
-
-router.post('/', createRole);
+router.get('/', getAllRoles);
 
 
 router.delete('/:id', deleteRole);

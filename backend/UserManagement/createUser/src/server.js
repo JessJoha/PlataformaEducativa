@@ -1,9 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const sequelize = require('./config/db'); 
+const sequelize = require('./config/db');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes'); // Importa las rutas de usuarios
-
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -25,12 +24,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-app.use('/user', userRoutes); 
+app.use('/user', userRoutes);
 
 
-sequelize.sync()
+sequelize
+  .sync({ alter: true }) 
   .then(() => {
-    console.log('La base de datos y las tablas fueron creadas con éxito');
+    console.log('Base de datos sincronizada correctamente (Usuarios)');
   })
   .catch((err) => {
     console.error('Error al sincronizar la base de datos:', err);
@@ -39,5 +39,5 @@ sequelize.sync()
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  console.log(`Servidor de Usuarios corriendo en el puerto ${PORT}`);
 });
