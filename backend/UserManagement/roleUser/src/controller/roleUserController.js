@@ -1,5 +1,6 @@
 
-const { Role } = require('../models/roleModel');
+const { Role } = require('../../../models/roleModel');
+
 const PREDEFINED_ROLES = ['estudiante', 'profesor', 'administrador'];
 
 const initializeRoles = async () => {

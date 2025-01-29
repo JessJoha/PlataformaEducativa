@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 const sequelize = require('./config/db');
 const cors = require('cors');
 const roleRoutes = require('./routes/roleUserRoutes');
-const { initializeRoles } = require('../../controllers/roleUserController');
 
 dotenv.config();
 
@@ -23,10 +22,12 @@ app.use('/roles', roleRoutes);
 
 
 sequelize
-  .sync({ alter: true }) 
+  .sync({ alter: true })  // Asegura que la base de datos se sincronice correctamente
   .then(async () => {
     console.log('Base de datos sincronizada correctamente (Roles)');
-    await initializeRoles(); 
+    
+    // Aquí se inicializan los roles
+    await initializeRoles();
     console.log('Roles inicializados correctamente');
   })
   .catch((err) => {

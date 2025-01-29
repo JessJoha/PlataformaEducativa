@@ -1,5 +1,7 @@
-const { User } = require('../models/userModel');
-const { Role } = require('../models/roleModel');
+const { User } = require('../Model/userModel');
+const { Role } = require('../../../models/roleModel');
+const { generateToken } = require('../../../createUser/src/config/jwtConfig');
+
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -16,6 +18,7 @@ const createUserController = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
+    
 
 
     const newUser = await User.create({
@@ -25,7 +28,10 @@ const createUserController = async (req, res) => {
       roleId: defaultRole.id,
     });
 
-    return res.status(201).json({ message: 'Usuario creado con éxito', user: newUser });
+    const token = generateToken(newUser.userId);
+    
+
+    return res.status(201).json({ message: 'Usuario creado con éxito', user: newUser, token: token, });
   } catch (error) {
     return res.status(500).json({ message: 'Error al crear el usuario', error: error.message });
   }
