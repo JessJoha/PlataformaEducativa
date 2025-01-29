@@ -7,7 +7,7 @@ const Course = sequelize.define('Course', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
-    title: {
+    nameCourse: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -24,3 +24,5 @@ const Course = sequelize.define('Course', {
 });
 
 module.exports = { Course };
+
+
