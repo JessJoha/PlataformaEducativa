@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const sequelize = require('./config/db');
 const cors = require('cors');
 const roleRoutes = require('./routes/roleUserRoutes');
-const { initializeRoles } = require('../../../controllers/roleUserController');
+const { initializeRoles } = require('../../controllers/roleUserController');
 
 dotenv.config();
 
