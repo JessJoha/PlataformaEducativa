@@ -8,15 +8,15 @@ const deleteUserController = async (req, res) => {
     const user = await User.findOne({ where: { userId } });
 
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
    
     await user.destroy();
 
-    return res.status(200).json({ message: 'Usuario eliminado exitosamente' });
+    return res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
-    return res.status(500).json({ message: 'Error al eliminar el usuario', error: error.message });
+    return res.status(500).json({ message: 'Error deleting user', error: error.message });
   }
 };
 
