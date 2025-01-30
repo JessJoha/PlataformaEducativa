@@ -16,10 +16,10 @@ const sequelize = new Sequelize(
 
 sequelize.authenticate()
   .then(() => {
-    console.log('Conexión a la base de datos establecida con éxito.');
+    console.log('Connection to database established successfully.');
   })
   .catch((err) => {
-    console.error('No se pudo conectar a la base de datos. Verifica las credenciales y la conectividad:', err);
+    console.error('Could not connect to the database. Verify credentials and connectivity:', err);
   });
 
 module.exports = sequelize;
