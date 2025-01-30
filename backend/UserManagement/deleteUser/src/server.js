@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const sequelize = require('./config/db'); 
 const cors = require('cors');
-const deleteUserRoutes = require('./routes/deleteUserRoutes'); // Importa las rutas
+const deleteUserRoutes = require('./routes/deleteUserRoutes');
 
 dotenv.config();
 
