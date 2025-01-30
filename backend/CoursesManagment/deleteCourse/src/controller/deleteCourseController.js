@@ -1,5 +1,5 @@
 
-const { Course } = require('../createCourses/src/model/courseModel');
+const { Course } = require('../../../createCourses/src/Model/courseModel');
 
 
 const deleteCourse = async (req, res) => {
