@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const sequelize = require('./config/db'); 
 const cors = require('cors');
-const deleteUserRoutes = require('./routes/deleteUserRoutes'); // Importa las rutas
+const deleteUserRoutes = require('./routes/deleteUserRoutes');
 
 dotenv.config();
 
@@ -20,14 +20,14 @@ app.use('/user', deleteUserRoutes);
 
 sequelize.sync()
   .then(() => {
-    console.log('La base de datos y las tablas fueron creadas con éxito');
+    console.log('Database and tables were created successfully');
   })
   .catch((err) => {
-    console.error('Error al sincronizar la base de datos:', err);
+    console.error('Error syncing the database:', err);
   });
 
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Servidor deleteUser corriendo en el puerto ${PORT}`);
+  console.log(`deleteUser server running on port ${PORT}`);
 });
