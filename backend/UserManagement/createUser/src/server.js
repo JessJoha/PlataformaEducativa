@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('¡Ocurrió un error!');
+  res.status(500).send('An error occurred!');
 });
 
 
@@ -30,14 +30,14 @@ app.use('/user', userRoutes);
 sequelize
   .sync({ alter: true }) 
   .then(() => {
-    console.log('Base de datos sincronizada correctamente (Usuarios)');
+    console.log('Database synchronized successfully (Users)');
   })
   .catch((err) => {
-    console.error('Error al sincronizar la base de datos:', err);
+    console.error('Error syncing database:', err);
   });
 
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor de Usuarios corriendo en el puerto ${PORT}`);
+  console.log(`User server running on port ${PORT}`);
 });

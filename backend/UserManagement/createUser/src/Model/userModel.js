@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../createUser/src/config/db'); 
-const { Role } = require('../../../models/roleModel');
+const { Role } = require('../../../roleUser/src/model/roleModel');
 
 const User = sequelize.define('User', {
   userId: {
@@ -24,7 +24,7 @@ const User = sequelize.define('User', {
   roleId: {
     type: DataTypes.UUID,
     defaultValue: async () => {
-      const role = await Role.findOne({ where: { name: 'estudiante' } });
+      const role = await Role.findOne({ where: { name: 'student' } });
       return role ? role.id : null;
     },
     allowNull: false,
