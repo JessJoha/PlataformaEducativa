@@ -1,38 +1,13 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../createUser/src/config/db'); 
-const { Role } = require('../../../roleUser/src/model/roleModel');
+const db = require('../config/db');
+const bcrypt = require('bcrypt'); 
 
-const User = sequelize.define('User', {
-  userId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  roleId: {
-    type: DataTypes.UUID,
-    defaultValue: async () => {
-      const role = await Role.findOne({ where: { name: 'student' } });
-      return role ? role.id : null;
-    },
-    allowNull: false,
-  },
-}, {
-  timestamps: true,
-});
+const createUser = (username, password, role, callback) => {
+    bcrypt.hash(password, 10, (err, hashedPassword) => { 
+        if (err) return callback(err);
 
-User.belongsTo(Role, { foreignKey: 'roleId', as: 'role' });
-module.exports = { User };
-  
+        const sql = 'INSERT INTO users (username, password, role) VALUES (?, ?, ?)';
+        db.query(sql, [username, hashedPassword, role], callback);
+    });
+};
+
+module.exports = { createUser };
