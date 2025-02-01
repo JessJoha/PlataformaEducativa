@@ -10,17 +10,23 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST, 
     dialect: 'postgres',  
     port: process.env.DB_PORT || 5432,  
-    logging: false 
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true, 
+        rejectUnauthorized: false 
+      }
+    }
   }
 );
 
 
 sequelize.authenticate()
   .then(() => {
-    console.log('Connection to database established successfully.');
+    console.log('✅ Connection to database established successfully.');
   })
   .catch((err) => {
-    console.error('Could not connect to the database. Verify credentials and connectivity:', err);
+    console.error('❌ Could not connect to the database. Verify credentials and connectivity:', err);
   });
 
 module.exports = sequelize;
