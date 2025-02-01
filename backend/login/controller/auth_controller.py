@@ -10,7 +10,7 @@ auth_bp = Blueprint('auth', __name__)
 def register_admin():
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+                                                                                                
     admin_username = "admin"
     admin_password = generate_password_hash("admin123")
     

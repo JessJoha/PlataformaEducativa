@@ -1,8 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const sequelize = require('./config/db'); 
+const sequelize = require('./src/config/db'); 
 const cors = require('cors');
-const deleteUserRoutes = require('./routes/deleteUserRoutes');
+const deleteUserRoutes = require('./src/routes/deleteUserRoutes');
 
 dotenv.config();
 
@@ -10,7 +10,6 @@ const app = express();
 
 
 app.use(express.json());
-
 
 app.use(cors());
 
