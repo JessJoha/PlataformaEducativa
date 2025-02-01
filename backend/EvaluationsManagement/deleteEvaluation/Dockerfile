@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 
-EXPOSE 4001
+EXPOSE 4007
 
 
 CMD ["node", "src/server.js"]
