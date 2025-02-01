@@ -1,30 +1,29 @@
+const { Evaluation } = require('../Model/evaluationModel');
 
-const { Course } = require('../Model/evaluationModel');
-
-const createCourse = async (req, res) => {
-  const { nameCourse, description, duration } = req.body;
+const createEvaluation = async (req, res) => {
+  const { title, description, questions } = req.body;
 
   try {
-    if (!nameCourse || !description || !duration) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!title || !description || !questions || !Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({ error: 'Title, description and at least one question are required' });
     }
 
-    const newCourse = await Course.create({
-      nameCourse,
+    const newEvaluation = await Evaluation.create({
+      title,
       description,
-      duration,
+      questions,
     });
 
-    return res.status(201).json({   
-      message: 'Course created successfully',
-      course: newCourse,
+    return res.status(201).json({
+      message: 'Evaluation created successfully',
+      evaluation: newEvaluation,
     });
   } catch (error) {
-    console.error('Error creating course:', error);
-    return res.status(500).json({ error: 'Error creating course' });
+    console.error('Error creating evaluation:', error);
+    return res.status(500).json({ error: 'Error creating evaluation' });
   }
 };
 
 module.exports = {
-  createCourse,
+  createEvaluation,
 };
