@@ -1,15 +1,20 @@
 const { Evaluation } = require('../Model/evaluationModel');
 
 const createEvaluation = async (req, res) => {
-  const { title, description, questions } = req.body;
+  const { nameEvaluation, description, questions } = req.body;
 
   try {
-    if (!title || !description || !questions || !Array.isArray(questions) || questions.length === 0) {
-      return res.status(400).json({ error: 'Title, description and at least one question are required' });
+    if (!nameEvaluation || !description || !questions || questions.length === 0) {
+      return res.status(400).json({ error: 'All fields are required, including questions' });
+    }
+
+    const userRole = req.user.role;
+    if (userRole !== 'profesor' && userRole !== 'administrador') {
+      return res.status(403).json({ error: 'Only professors and administrators can create evaluations' });
     }
 
     const newEvaluation = await Evaluation.create({
-      title,
+      nameEvaluation,
       description,
       questions,
     });
