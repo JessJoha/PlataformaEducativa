@@ -3,7 +3,7 @@
 FROM node:16
 
 
-WORKDIR /app
+WORKDIR /urs/src/app
 
 
 COPY package*.json ./
@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 
-EXPOSE 3000
+EXPOSE 4000
 
 
-CMD ["npm", "start"]
+CMD ["node", "src/server.js"]
