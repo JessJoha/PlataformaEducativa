@@ -1,4 +1,4 @@
-const { Evaluation } = require('../Model/evaluationModel');
+const { Evaluation, Question, Option } = require('../Model/evaluationModel');
 
 const createEvaluation = async (req, res) => {
   const { nameEvaluation, description, questions } = req.body;
@@ -8,24 +8,42 @@ const createEvaluation = async (req, res) => {
       return res.status(400).json({ error: 'All fields are required, including questions' });
     }
 
-    const userRole = req.user.role;
-    if (userRole !== 'profesor' && userRole !== 'administrador') {
-      return res.status(403).json({ error: 'Only professors and administrators can create evaluations' });
-    }
+
 
     const newEvaluation = await Evaluation.create({
       nameEvaluation,
       description,
-      questions,
+      questions: []
     });
+
+
+    for (const question of questions) {
+      const newQuestion = await Question.create({
+        questionText: question.question_text,
+        evaluation_id: newEvaluation.evaluationId
+      });
+
+
+      for (const option of question.options) {
+        await Option.create({
+          optionText: option.option_text,
+          isCorrect: option.is_correct,
+          question_id: newQuestion.id
+        });
+      }
+    }
 
     return res.status(201).json({
       message: 'Evaluation created successfully',
       evaluation: newEvaluation,
     });
+
   } catch (error) {
     console.error('Error creating evaluation:', error);
-    return res.status(500).json({ error: 'Error creating evaluation' });
+    return res.status(500).json({
+      error: 'Error creating evaluation',
+      details: error.message
+    });
   }
 };
 
