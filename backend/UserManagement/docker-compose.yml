@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   createUser:
+    image: jessjoha/crear-usuario:v1
     build:
       context: ./createUser
     ports:
