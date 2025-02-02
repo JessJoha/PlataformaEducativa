@@ -1,4 +1,4 @@
-const { deleteUserById } = require('../Model/userModel');
+const { deleteUserById } = require('../model/deleteUserModel');
 const jwt = require('jsonwebtoken'); // Para verificar el token
 
 exports.deleteUser = async (req, res) => {
