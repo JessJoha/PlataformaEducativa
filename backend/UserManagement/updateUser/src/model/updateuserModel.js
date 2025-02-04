@@ -1,46 +1,38 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  role: {
-    type: DataTypes.ENUM('student', 'admin'),
-    defaultValue: 'student'
-  }
-}, {
-  timestamps: true
-});
+const db = require('../config/db');
 
 module.exports = {
-  User,
+
 
   findUserById: async (id) => {
-    return await User.findByPk(id);
+    try {
+      const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+      return rows.length ? rows[0] : null;
+    } catch (error) {
+      console.error("Error al buscar usuario:", error);
+      throw error;
+    }
   },
 
-  
+
   updateUserById: async (id, username, password, role) => {
-    const user = await User.findByPk(id);
-    if (!user) return null;
+    try {
+    
+      const user = await module.exports.findUserById(id);
+      if (!user) return null;
 
-    user.username = username;
-    user.password = password;
-    user.role = role;
+ 
+      username = username || user.username;
+      password = password || user.password;
+      role = role || user.role;
 
-    await user.save();
-    return user;
+
+      await db.query("UPDATE users SET username = ?, password = ?, role = ? WHERE id = ?", 
+        [username, password, role, id]);
+
+      return { id, username, role };
+    } catch (error) {
+      console.error("Error al actualizar usuario:", error);
+      throw error;
+    }
   }
 };

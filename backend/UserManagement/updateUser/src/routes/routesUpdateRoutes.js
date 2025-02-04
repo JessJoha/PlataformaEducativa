@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { updateUser } = require('../controllers/updateUserController');
-const { verifyToken } = require('../middleware/authMiddleware');
+const { updateUser } = require('../controller/updateUserController');  
+const { verifyToken } = require('../config/jwtConfig');
 
 router.put('/users/:id', verifyToken, updateUser);
 

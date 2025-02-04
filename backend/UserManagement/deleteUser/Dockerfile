@@ -1,9 +1,7 @@
-
-
 FROM node:16
 
 
-WORKDIR /app
+WORKDIR /backend/UserManagement/deleteUser
 
 
 COPY package*.json ./
