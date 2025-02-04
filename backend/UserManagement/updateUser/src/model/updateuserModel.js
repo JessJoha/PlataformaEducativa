@@ -2,7 +2,6 @@ const db = require('../config/db');
 
 module.exports = {
 
-
   findUserById: async (id) => {
     try {
       const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);

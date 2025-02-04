@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const bcrypt = require('bcrypt'); 
+
 
 const createUser = (username, hashedPassword, role) => {
   return new Promise((resolve, reject) => {
