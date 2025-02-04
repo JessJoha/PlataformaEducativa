@@ -7,7 +7,7 @@ const listCourses = async (req, res) => {
     if (!courses || courses.length === 0) {
       return res.status(404).json({ message: 'No courses found' });
     }
-    return res.status(200).json({
+    return res.status(200).json({xxa
       message: 'Courses retrieved successfully',
       courses,
     });
