@@ -35,10 +35,10 @@ jobs:
         run: |
           docker push myrepo/createserviceuser:${{ github.sha }}
 
-      
+      C:/Users/jessi/OneDrive/Documentos/GitHub/ParClaves/
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem ec2-user@52.206.177.25 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i C:/Users/jessi/OneDrive/Documentos/GitHub/ParClaves/Create_User_Service.pem ec2-user@52.206.177.25 << 'EOF'
             docker pull myrepo/createserviceuser:${{ github.sha }}
             docker stop createserviceuser || true
             docker rm createserviceuser || true
