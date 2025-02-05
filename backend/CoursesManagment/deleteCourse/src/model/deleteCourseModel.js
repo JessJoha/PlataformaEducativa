@@ -1,9 +1,7 @@
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-
-const Course = sequelize.define('Course', {
+const DeleteCourse= sequelize.define('DeleteCourse', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -29,19 +27,4 @@ const Course = sequelize.define('Course', {
   timestamps: true
 });
 
-
-const deleteCourse = async (id) => {
-  try {
-    const course = await Course.findByPk(id);
-    if (!course) return null;
-
-
-    await course.destroy();
-    return course;
-  } catch (error) {
-    console.error("Error al eliminar curso:", error);
-    throw error;
-  }
-};
-
-module.exports = { Course, deleteCourse };
+module.exports = { DeleteCourse};

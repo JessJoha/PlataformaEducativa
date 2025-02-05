@@ -21,7 +21,6 @@ const generateToken = (userId) => {
   return jwt.sign(payload, JWT_SECRET, options);
 };
 
-
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, JWT_SECRET);
