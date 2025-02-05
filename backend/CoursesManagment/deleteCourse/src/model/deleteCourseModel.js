@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const DeleteCourse= sequelize.define('DeleteCourse', {
+const Course= sequelize.define('Course', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -27,4 +27,4 @@ const DeleteCourse= sequelize.define('DeleteCourse', {
   timestamps: true
 });
 
-module.exports = { DeleteCourse};
+module.exports = { Course};

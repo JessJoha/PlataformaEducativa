@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
-const DeleteCourse  = require('../model/deleteCourseModel');
+const Course  = require('../model/deleteCourseModel');
 
 dotenv.config();
 

@@ -17,7 +17,7 @@ sequelize.sync()
   .then(() => console.log('Base de datos sincronizada con Sequelize'))
   .catch(err => console.error('Error al sincronizar la base de datos:', err));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4001;
 
 app.listen(PORT, () => {
     console.log(`Microservicio CreateCourse corriendo en el puerto ${PORT}`);
