@@ -24,23 +24,23 @@ jobs:
       # Paso 3: Construir la imagen de Docker
       - name: Build Docker image
         run: |  
-          docker build -t myrepo/createUser:${{ github.sha }} .
+          docker build -t myrepo/createuser:${{ github.sha }} .
 
       - name: Push Docker image to DockerHub
         run: |
-          docker push myrepo/createUser:${{ github.sha }}
+          docker push myrepo/createuser:${{ github.sha }}
 
       # Paso 5: Subir la imagen al repositorio de DockerHub
       - name: Push Docker image
         run: |
-          docker push myrepo/createUser:${{ github.sha }}
+          docker push myrepo/createuser:${{ github.sha }}
 
       # Paso 6: Desplegar a EC2
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem ec2-user@52.206.177.25 << 'EOF'
-            docker pull myrepo/createUser:${{ github.sha }}
-            docker stop createUser || true
-            docker rm createUser || true
-            docker run -d --name createUser -p 80:80 myrepo/createUser:${{ github.sha }}
+            docker pull myrepo/createuser:${{ github.sha }}
+            docker stop createuser || true
+            docker rm createuser || true
+            docker run -d --name createuser -p 80:80 myrepo/createuser:${{ github.sha }}
           EOF
