@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t jessjoha/createserviceuser:${{ github.sha }} ./backend/UserManagement/createUser
+          docker build -t jessjoha/createserviceuser:${{ github.sha }} backend/UserManagement/createUser
 
       - name: Push Docker image to DockerHub
         run: |
