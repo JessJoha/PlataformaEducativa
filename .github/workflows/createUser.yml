@@ -15,30 +15,21 @@ jobs:
         run: |
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > /tmp/id_rsa
           chmod 600 /tmp/id_rsa
-        
 
-      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      
       - name: Build Docker image
-        run: |  
+        run: |
           docker build -t myrepo/createserviceuser:${{ github.sha }} ./backend/UserManagement/createUser
 
       - name: Push Docker image to DockerHub
         run: |
-          docker push myrepo/createserviceuser:${{ github.sha }} 
-
-     
-      - name: Push Docker image
-        run: |
           docker push myrepo/createserviceuser:${{ github.sha }}
-
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i C:/Users/jessi/OneDrive/Documentos/GitHub/ParClaves/Create_User_Service.pem ec2-user@52.206.177.25 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa ec2-user@52.206.177.25 << 'EOF'
             docker pull myrepo/createserviceuser:${{ github.sha }}
             docker stop createserviceuser || true
             docker rm createserviceuser || true
