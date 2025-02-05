@@ -24,7 +24,7 @@ jobs:
       # Paso 3: Construir la imagen de Docker
       - name: Build Docker image
         run: |  
-          docker build -t myrepo/createuser:${{ github.sha }} .
+          docker build -t myrepo/createservicuser:${{ github.sha }} ./backend/UserManagement/createUser
 
       - name: Push Docker image to DockerHub
         run: |
