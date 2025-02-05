@@ -1,4 +1,4 @@
-name: Deploy Create User Service
+name: Deploy Create Evaluation Service
 
 on:
   push:
@@ -21,18 +21,17 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t jessjoha/createserviceuser:${{ github.sha }} ./backend/UserManagement/createUser
+          docker build -t myrepo/createevaluation:${{ github.sha }} ./backend/UserManagement/createUser
 
       - name: Push Docker image to DockerHub
         run: |
-          docker push jessjoha/createserviceuser:${{ github.sha }}
+          docker push myrepo/createevaluation:${{ github.sha }}
 
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa ec2-user@52.206.177.25 << 'EOF'
-            docker pull jessjoha/createserviceuser:${{ github.sha }}
+            docker pull myrepo/createserviceuser:${{ github.sha }}
             docker stop createserviceuser || true
             docker rm createserviceuser || true
-            docker run -d --name createserviceuser -p 80:3000 jessjoha/createserviceuser:${{ github.sha }}
+            docker run -d --name createserviceuser -p 80:80 myrepo/createserviceuser:${{ github.sha }}
           EOF
-
