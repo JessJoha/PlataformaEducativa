@@ -3,9 +3,12 @@ FROM node:16-slim
 WORKDIR /backend/UserManagement/createUser
 
 COPY package.json ./
+
 RUN npm install --silent --progress=false
 
-COPY . . 
+COPY .env ./
+
+COPY . .
 
 EXPOSE 3000
 

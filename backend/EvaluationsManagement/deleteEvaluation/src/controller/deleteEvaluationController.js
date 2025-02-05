@@ -1,4 +1,6 @@
-const { Evaluation, Question, Option } = require('../../../createEvaluation/src/Model/evaluationModel');
+
+const { Evaluation, Question, Option } = require('../Model/deleteEvaluationModel');
+
 
 const deleteEvaluation = async (req, res) => {
   const { evaluationId } = req.params;

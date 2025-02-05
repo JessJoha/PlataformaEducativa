@@ -1,27 +1,24 @@
-
+require('dotenv').config({ path: '../.env' })
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const courseRoutes = require('./routes/routeDelete');
+const bodyParser = require('body-parser');
 const sequelize = require('./config/db');
-
-dotenv.config();
-
+const routes = require('./routes/routeDelete');
 const app = express();
 
-
 app.use(cors());
-app.use(express.json());
-app.use('/courses', courseRoutes);
+app.use(bodyParser.json());
 
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connected');
-    console.log(`Server is running on port ${PORT}`);
-  } catch (error) {
-    console.error('Database connection failed:', error);
-  }
+app.use('/courses', routes);
+
+
+sequelize.sync()
+  .then(() => console.log('Base de datos sincronizada con Sequelize'))
+  .catch(err => console.error('Error al sincronizar la base de datos:', err));
+
+const PORT = process.env.PORT || 4001;
+
+app.listen(PORT, () => {
+    console.log(`Microservicio CreateCourse corriendo en el puerto ${PORT}`);
 });
