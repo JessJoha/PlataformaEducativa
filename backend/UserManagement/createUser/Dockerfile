@@ -1,15 +1,21 @@
-FROM node:16-slim
 
-WORKDIR /backend/UserManagement/createUser
 
-COPY package.json ./
+FROM node:16
 
-RUN npm install --silent --progress=false
 
-COPY .env ./
+WORKDIR /urs/src/app
+
+
+COPY package*.json ./
+
+
+RUN npm install
+
 
 COPY . .
 
+
 EXPOSE 3000
+
 
 CMD ["node", "src/server.js"]
