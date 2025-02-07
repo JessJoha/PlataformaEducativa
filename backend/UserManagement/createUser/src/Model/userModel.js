@@ -10,4 +10,9 @@ const createUser = (username, hashedPassword, role) => {
       });
   });
 };
+
+
+User.prototype.checkPassword = async function(password) {
+  return await bcrypt.compare(password, this.password);
+};
   module.exports = { createUser };

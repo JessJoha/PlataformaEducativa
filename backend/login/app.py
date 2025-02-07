@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from routes import auth_bp 
 from config import Config
 from dotenv import load_dotenv
+import pymysql
+pymysql.install_as_MySQLdb()
 
 load_dotenv(dotenv_path='../.env')  
 
