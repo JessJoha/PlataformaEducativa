@@ -1,7 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+import bcrypt
+from app import db 
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -12,7 +11,7 @@ class User(db.Model):
     role = db.Column(db.String(80), nullable=False)
 
     def set_password(self, password):
-        self.password = generate_password_hash(password)
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
