@@ -22,7 +22,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t andy3dub/list-evaluation:latest -f ./backend/EvaluationsManagement/listEvaluation/Dockerfile ./backend/EvaluationsManagement/
+          docker build -t andy3dub/list-evaluation:latest -f ./backend/EvaluationsManagement/listEvaluation/Dockerfile ./ 
 
       - name: Push Docker image to DockerHub
         run: |
