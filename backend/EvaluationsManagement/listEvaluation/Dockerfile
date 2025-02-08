@@ -3,7 +3,7 @@ FROM node:16
 
 
 
-WORKDIR /urs/src/app
+WORKDIR /usr/src/app
 
 
 
