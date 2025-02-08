@@ -1,36 +1,23 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config();
-
+require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("ERROR: JWT_SECRET no está definido en .env");
+}
 
-
-const JWT_EXPIRATION = process.env.ACCESS_TOKEN_EXPIRATION || '3600'; 
-
+const JWT_EXPIRATION = process.env.ACCESS_TOKEN_EXPIRATION || '3600';
 
 const generateToken = (userId) => {
-  const payload = {
-    userId: userId, 
-  };
-
-  const options = {
-    expiresIn: JWT_EXPIRATION,
-  };
-
-  return jwt.sign(payload, JWT_SECRET, options);
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRATION, algorithm: "HS256" });
 };
-
 
 const verifyToken = (token) => {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, JWT_SECRET, { algorithms: ["HS256"] });
   } catch (error) {
-    throw new Error('Invalid or expired token');
+    throw new Error('Token inválido o expirado');
   }
 };
 
-module.exports = {
-  generateToken,
-  verifyToken,
-};
+module.exports = { generateToken, verifyToken };
