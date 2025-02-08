@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 
 
-COPY ./backend/EvaluationsManagement/listEvaluation/package*.json ./
+COPY backend/EvaluationsManagement/listEvaluation/package*.json ./
 
 
 RUN npm install
