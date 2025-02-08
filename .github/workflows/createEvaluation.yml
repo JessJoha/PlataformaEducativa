@@ -3,42 +3,38 @@ name: Deploy Create Evaluation Service
 on:
   push:
     branches:
-      - test  
+      - test
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Set up SSH
         run: |
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > /tmp/id_rsa
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY_2 }}" > /tmp/id_rsa
           chmod 600 /tmp/id_rsa
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in to DockerHub
-        run: |
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker image
         run: |
-          cd C:\Users\Pc\Documents\GitHub\PlataformaEducativa\backend\EvaluationsManagement\createEvaluation
-          docker build -t andy3dub/create-evaluation:v1 .
+          docker build -t andy3dub/create-evaluation:${{ github.sha }} -f ./backend/EvaluationsManagement/createEvaluation/Dockerfile ./backend
 
       - name: Push Docker image to DockerHub
         run: |
-          docker tag andy3dub/create-evaluation:v1 andy3dub/create-evaluation:latest
-          docker push andy3dub/create-evaluation:v1
-          docker push andy3dub/create-evaluation:latest
+          docker push andy3dub/create-evaluation:${{ github.sha }}
 
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa ubuntu@54.144.243.7 << 'EOF'
-            sudo docker pull andy3dub/create-evaluation:latest
+            sudo docker pull andy3dub/create-evaluation:${{ github.sha }}
             sudo docker stop CreateEvaluation || true
             sudo docker rm CreateEvaluation || true
-            sudo docker run -d -p 4006:4006 --name CreateEvaluation andy3dub/create-evaluation:latest
+            sudo docker run -d --name CreateEvaluation -p 4006:4006 andy3dub/create-evaluation:${{ github.sha }}
           EOF
