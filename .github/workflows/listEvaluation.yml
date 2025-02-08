@@ -22,7 +22,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t andy3dub/list-evaluation:latest -f C:/Users/Pc/Documents/GitHub/PlataformaEducativa/backend/EvaluationsManagement/listEvaluation/Dockerfile C:/Users/Pc/Documents/GitHub/PlataformaEducativa/backend/EvaluationsManagement/listEvaluation
+          docker build -t andy3dub/list-evaluation:latest -f ./backend/EvaluationsManagement/listEvaluation/Dockerfile ./backend/EvaluationsManagement/listEvaluation
+
 
       - name: Push Docker image to DockerHub
         run: |
