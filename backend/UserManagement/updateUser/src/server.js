@@ -6,12 +6,10 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/routesUpdateRoutes');
 
 
-
 app.use(cors());
 app.use(bodyParser.json());
 
-
-app.use('/api', routes);
+app.use('/users', routes);
 
 
 const PORT = process.env.PORT || 3002;
