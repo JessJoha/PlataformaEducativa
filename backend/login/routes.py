@@ -26,8 +26,9 @@ def login():
         return jsonify({'error': 'Invalid credentials'}), 401
 
     token = jwt.encode({
-        'user_id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=Config.ACCESS_TOKEN_EXPIRATION)
-    }, Config.JWT_SECRET_KEY, algorithm='HS256')
+    'user_id': user.id,
+    'role': user.role, 
+    'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=Config.ACCESS_TOKEN_EXPIRATION)
+}, Config.JWT_SECRET_KEY, algorithm='HS256')
 
     return jsonify({'message': 'Login successful', 'token': token})

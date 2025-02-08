@@ -87,7 +87,7 @@ exports.createAdmin = async (req, res) => {
       return res.status(400).json({ error: "El usuario ya existe" });
     }
 
-    // Create admin temporary
+   
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newAdmin = await User.create({
