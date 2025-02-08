@@ -5,8 +5,8 @@ const app = express();
 const userRoutes = require('./routes/deleteUserRoutes'); 
 require('./config/db'); 
 
+app.use(express.json());  
 
-app.use(express.json());
 
 app.use('/users', userRoutes);
 
