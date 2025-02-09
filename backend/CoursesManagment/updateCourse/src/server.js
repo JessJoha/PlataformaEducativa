@@ -1,15 +1,11 @@
 require('dotenv').config({ path: '../.env' })
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
 const sequelize = require('./config/db');
 const routes = require('./routes/updateRoutes');
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
 
-
+app.use(express.json());
 app.use('/courses', routes);
 
 

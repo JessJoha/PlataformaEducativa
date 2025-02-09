@@ -9,9 +9,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRATION = process.env.ACCESS_TOKEN_EXPIRATION || '3600'; 
 
 
-const generateToken = (userId) => {
+const generateToken = (userId, role) => {
   const payload = {
-    userId: userId, 
+    id: userId, 
+    role: role,
   };
 
   const options = {

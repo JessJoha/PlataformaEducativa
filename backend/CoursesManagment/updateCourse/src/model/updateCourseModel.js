@@ -18,13 +18,9 @@ const Course = sequelize.define('Course', {
   accessKey: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  createdBy: {
-    type: DataTypes.INTEGER,
-    allowNull: false
   }
 }, {
-  timestamps: true
+  timestamps: true 
 });
 
-module.exports = Course;
+module.exports = Course;  

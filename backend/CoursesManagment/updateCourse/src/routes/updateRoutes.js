@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { updateCourseController } = require('../controller/updateCourseController');
-const { verifyToken } = require('../config/jwtConfig');
+const updateCourse = require('../controller/updateCourseController');
 
 
-router.put('/courses/:id', verifyToken, updateCourseController);
+router.put('/update/:id', updateCourse.updateCourseController);
 
 module.exports = router;
