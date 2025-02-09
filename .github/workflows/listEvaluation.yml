@@ -1,0 +1,38 @@
+name: Deploy List Evaluation Service
+
+on:
+  push:
+    branches:
+      - test
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY_3LIST }}" > /tmp/id_rsa
+          chmod 600 /tmp/id_rsa
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t andy3dub/list-evaluation:latest -f ./backend/EvaluationsManagement/listEvaluation/Dockerfile ./ 
+
+      - name: Push Docker image to DockerHub
+        run: |
+          docker push andy3dub/list-evaluation:latest
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa ubuntu@23.20.89.9 << 'EOF'
+            sudo docker pull andy3dub/list-evaluation:latest
+            sudo docker stop ListEvaluation || true
+            sudo docker rm ListEvaluation || true
+            sudo docker run -d -p 4008:4008 --name ListEvaluation andy3dub/list-evaluation:latest
+          EOF

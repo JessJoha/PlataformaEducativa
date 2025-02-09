@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { listUser } = require('../controller/listUserController');
-const { verifyToken } = require('../config/jwtConfig');
+const listRoutes = require('../controller/listUserController');
 
-router.get('/users', verifyToken, listUser);
+router.get('/users', listRoutes.listUser);
 
 module.exports = router;

@@ -1,6 +1,3 @@
-const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
-const Course = require= require('../Model/courseModel');
 
 dotenv.config();
 
@@ -22,9 +19,8 @@ const createCourse = async (req, res) => {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
-    // Crear el curso en la base de datos
-    const course = await Course.create({
-      title,
+    const newCourse = await Course.create({
+      nameCourse,
       description,
       accessKey,
       createdBy: decoded.id

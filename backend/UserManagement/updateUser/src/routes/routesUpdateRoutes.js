@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const updateController = require('../controller/updateUserController'); 
 
-const { updateUser } = require('../controller/updateUserController');  
-const { verifyToken } = require('../config/jwtConfig');
 
-router.put('/:id', verifyToken, updateUser);
+router.put('/:id', updateController.updateUser);
 
 module.exports = router;

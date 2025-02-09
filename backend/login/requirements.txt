@@ -3,3 +3,5 @@ pymysql
 python-dotenv
 werkzeug
 pyjwt
+Flask-SQLAlchemy
+bcrypt
