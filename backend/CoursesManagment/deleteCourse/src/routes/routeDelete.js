@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { deleteCourse } = require('../controller/deleteCourseController');
-const { verifyToken } = require('../config/jwtConfig');
+const DeleteCourse = require('../controller/deleteCourseController');
 
 
-router.delete('/courses/:id', verifyToken, deleteCourse);
+
+router.delete('/delete/:id', DeleteCourse.deleteCourse);
 
 module.exports = router;

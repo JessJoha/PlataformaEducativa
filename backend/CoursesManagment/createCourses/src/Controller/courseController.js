@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const { Course } = require('../Model/courseModel');
 const jwt = require('jsonwebtoken');
+
 exports.createCourse = async (req, res) => {
   try {
     
