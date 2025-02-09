@@ -1,22 +1,16 @@
-
+require('dotenv').config({ path: '../.env' })
 const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const listCourseRoutes = require('./routes/listCourseRoutes');
-const sequelize = require('./config/db');
-
-dotenv.config();
+const listCourseRoutes = require('./routes/listRoutes'); 
+const sequelize = require('./config/db');  
 
 const app = express();
 
-
-app.use(cors());
 app.use(express.json());
 
 app.use('/courses', listCourseRoutes);
 
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 4002;
 app.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
