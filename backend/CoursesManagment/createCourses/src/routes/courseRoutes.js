@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createCourse } = require('../Controller/courseController');
-const { verifyToken } = require('../config/jwtConfig');
+const courseController = require('../Controller/courseController');
 
-router.post('/courses', verifyToken, createCourse);
+
+router.post('/create',  courseController.createCourse);
 
 module.exports = router;
