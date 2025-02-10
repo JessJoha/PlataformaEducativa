@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');  
 dotenv.config();
-const { updateUserById, findUserById } = require('../model/updateUserModel');
+const { updateUserById, findUserById } = require('../model/updateuserModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
