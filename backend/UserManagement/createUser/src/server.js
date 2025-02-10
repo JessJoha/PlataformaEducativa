@@ -8,6 +8,6 @@ app.use(express.json());
 
 app.use('/users', userRoutes);
 
-app.listen(3000, 'localhost', () => {
+app.listen(3000, '0.0.0.0', () => {
   console.log('Server running on port 3000');
 });
