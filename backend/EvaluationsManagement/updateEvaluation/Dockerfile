@@ -2,7 +2,9 @@
 FROM node:16
 
 
-WORKDIR /usr/src/app
+
+WORKDIR /urs/src/app
+
 
 
 COPY package*.json ./

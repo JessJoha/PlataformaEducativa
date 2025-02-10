@@ -1,4 +1,5 @@
-const { Evaluation } = require('../../../createEvaluation/src/Model/evaluationModel');
+const { Evaluation } = require('../Model/updateEvaluationModel');
+
 
 const updateEvaluation = async (req, res) => {
   const { evaluationId } = req.params;

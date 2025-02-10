@@ -1,24 +1,35 @@
-const { User } = require('../../../createUser/src/Model/userModel');
+const { deleteUserById } = require('../model/deleteUserModel');
+const jwt = require('jsonwebtoken');
 
-
-const deleteUserController = async (req, res) => {
-  const { userId } = req.params; 
-
+exports.deleteUser = async (req, res) => {
   try {
     
-    const user = await User.findOne({ where: { userId } });
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(403).json({ error: "Token no proporcionado" });
+    }
 
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    
+    if (decoded.role !== 'admin') {
+      return res.status(403).json({ error: "Acceso denegado. Solo el administrador puede eliminar usuarios." });
+    }
+
+    
+    const { userId } = req.params;
+
+   
+    const user = await deleteUserById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
    
-    await user.destroy();
-
-    return res.status(200).json({ message: 'User deleted successfully'});
+    res.status(200).json({ message: `Usuario con ID ${userId} eliminado correctamente.` });
   } catch (error) {
-    return res.status(500).json({ message: 'Error deleting user', error: error.message });
+    console.error(error);
+    res.status(500).json({ error: "Error en el servidor: " + error.message });
   }
 };
-
-module.exports = { deleteUserController };

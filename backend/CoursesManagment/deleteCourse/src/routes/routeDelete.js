@@ -1,9 +1,9 @@
-
 const express = require('express');
-const { deleteCourse } = require('../controller/deleteCourseController');
-
 const router = express.Router();
+const DeleteCourse = require('../controller/deleteCourseController');
 
-router.delete('/delete/:courseId', deleteCourse);
+
+
+router.delete('/delete/:id', DeleteCourse.deleteCourse);
 
 module.exports = router;
