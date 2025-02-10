@@ -1,4 +1,4 @@
-const { Evaluation } = require('../../../createEvaluation/src/Model/evaluationModel');
+const { Evaluation } = require('../Model/listEvaluationModel');
 
 const listEvaluations = async (req, res) => {
   try {
