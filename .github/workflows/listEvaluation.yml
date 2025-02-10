@@ -41,7 +41,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_DNS_LIST_EVALUATION }}
           username: ubuntu
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY_3LIST }}
+          key: ${{ secrets.EC2_SSH_KEY2_EVALUATIONS }}
           script: |
             sudo docker stop list-evaluation || true
             sudo docker rm list-evaluation || true
