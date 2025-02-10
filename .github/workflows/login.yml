@@ -1,0 +1,56 @@
+name: CI/CD Pipeline for Login Service
+
+on:
+  push:
+    branches:
+      - test  
+
+jobs:
+  build-and-push-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push login image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/login-service:v1
+
+  deploy-login:
+    needs: build-and-push-login
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy login service to AWS EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS_LOGIN_QA }}
+          username: ubuntu  
+          key: ${{ secrets.EC2_SSH_KEY2_LOGIN }}
+          script: |
+            # Actualizar los paquetes e instalar Docker
+            sudo apt update
+            sudo apt install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+
+            # Eliminar cualquier contenedor previo
+            sudo docker stop login-service || true
+            sudo docker rm login-service || true
+
+            # Descargar la nueva imagen desde DockerHub
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/login-service:v1
+
+            # Ejecutar el contenedor con variables de entorno
+            sudo docker run -d --name login-service -p 5000:5000 \
+              --env-file .env \
+              ${{ secrets.DOCKERHUB_USERNAME }}/login-service:v1
