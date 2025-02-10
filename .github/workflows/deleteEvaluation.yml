@@ -42,7 +42,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY2_EVALUATIONS }}
           script: |
-            # Instalar Docker si no está instalado
+            # Install Docker if not installed
             if ! command -v docker &> /dev/null
             then
                 echo "Docker not found, installing..."
@@ -55,12 +55,12 @@ jobs:
                 echo "Docker is already installed"
             fi
             
-            # Detener y eliminar contenedor si ya existe
+            # Stop and delete container if it already exists
             sudo docker stop delete-evaluation || true
             sudo docker rm delete-evaluation || true
             
-            # Descargar nueva imagen
+            # Download new image
             sudo docker pull andy3dub/delete-evaluation:latest
             
-            # Ejecutar contenedor en puerto 4007
+            # Run container on port 4009 4007
             sudo docker run -d -p 4007:4007 --name delete-evaluation andy3dub/delete-evaluation:latest

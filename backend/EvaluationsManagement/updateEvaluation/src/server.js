@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/evaluations', evaluationRoutes);
 
 const PORT = process.env.PORT || 4009;
-app.listen(PORT, async () => {
+app.listen(PORT, '0.0.0.0', async () => {
   try {
     await sequelize.authenticate();
     console.log('Database connected');
