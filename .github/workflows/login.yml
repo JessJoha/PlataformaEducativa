@@ -33,7 +33,7 @@ jobs:
       - name: Deploy login service to AWS EC2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST_DNS_LOGIN_QA }}
+          host: ${{ secrets.HOST_DNS_LOGIN_IP_QA}}
           username: ubuntu  
           key: ${{ secrets.EC2_SSH_KEY2_LOGIN }}
           script: |
