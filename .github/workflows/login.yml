@@ -43,7 +43,7 @@ jobs:
             sudo systemctl start docker
             sudo systemctl enable docker
 
-            echo "${{ secrets.ENV_FILE }}" > ./backend/login/.env
+            echo "${{ secrets.ENV_FILE }}" > /tmp/.env
 
             sudo docker stop login-service || true
             sudo docker rm login-service || true
