@@ -15,8 +15,8 @@ jobs:
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME_j }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD_j}}
 
       - name: Build and push login image
         uses: docker/build-push-action@v4
@@ -24,7 +24,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/login-service:v1
+          tags: ${{ secrets.DOCKERHUB_USERNAME_J }}/login-service:v1
 
   deploy-login:
     needs: build-and-push-login
@@ -37,20 +37,20 @@ jobs:
           username: ubuntu  
           key: ${{ secrets.EC2_SSH_KEY2_LOGIN }}
           script: |
-            # Actualizar los paquetes e instalar Docker
+           r
             sudo apt update
             sudo apt install -y docker.io
             sudo systemctl start docker
             sudo systemctl enable docker
 
-            # Eliminar cualquier contenedor previo
+           
             sudo docker stop login-service || true
             sudo docker rm login-service || true
 
             # Descargar la nueva imagen desde DockerHub
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/login-service:v1
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/login-service:v1
 
-            # Ejecutar el contenedor con variables de entorno
+            
             sudo docker run -d --name login-service -p 5000:5000 \
               --env-file .env \
-              ${{ secrets.DOCKERHUB_USERNAME }}/login-service:v1
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/login-service:v1
