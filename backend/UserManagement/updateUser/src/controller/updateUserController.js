@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const { updateUserById, findUserById } = require('../model/updateUserModel');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 exports.updateUser = async (req, res) => {
