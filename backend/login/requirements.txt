@@ -5,3 +5,4 @@ werkzeug
 pyjwt
 Flask-SQLAlchemy
 bcrypt
+requests
