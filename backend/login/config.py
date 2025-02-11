@@ -12,4 +12,4 @@ class Config:
     LOGIN_SERVICE_PORT = int(os.environ.get('LOGIN_SERVICE_PORT', 5000))
 
 
-    CREATE_USER_SERVICE_URL = os.environ.get('CREATE_USER_SERVICE_URL', 'http://13.216.132.78:3000/users/register')
+    CREATE_USER_SERVICE_URL = os.environ.get('CREATE_USER_SERVICE_URL', 'http://13.216.132.78:3000')
