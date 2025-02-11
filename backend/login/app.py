@@ -4,8 +4,9 @@ from dotenv import load_dotenv
 import pymysql
 from extensions import db 
 
+
 pymysql.install_as_MySQLdb()
-load_dotenv(dotenv_path='../.env')
+load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(Config)
