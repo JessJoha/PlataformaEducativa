@@ -38,6 +38,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY2_LOGIN }}
           script: |
             
+            
             sudo apt update
             sudo apt install -y docker.io
             sudo systemctl start docker
@@ -52,7 +53,8 @@ jobs:
 
             
             sudo docker run -d --name login-service -p 5000:5000 \
-              -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
+              -e DB_URL="mysql://admin_users:${{ secrets.DB_PASSWORD_MYSQL }}@${{ secrets.DB_HOST }}:3306/usersdb" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
+              -e CREATE_USER_SERVICE_URL="http://13.216.132.78:3000/users/register" \
               ${{ secrets.DOCKERHUB_USERNAME_J }}/login-service:v1
