@@ -1,10 +1,11 @@
 require('dotenv').config({ path: '../.env' });
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const updateUserRoutes = require('./routes/routesUpdateRoutes');
 require('./config/db'); 
 
-
+app.use(cors());
 app.use(express.json());  
 
 app.use('/users', updateUserRoutes);

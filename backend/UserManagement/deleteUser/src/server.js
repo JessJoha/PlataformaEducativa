@@ -1,10 +1,11 @@
 require('dotenv').config({ path: '../.env' });
-
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/deleteUserRoutes'); 
 require('./config/db'); 
 
+app.use(cors());
 app.use(express.json());  
 
 
