@@ -13,16 +13,11 @@ app.config.from_object(Config)
 
 db.init_app(app) 
 
-with app.app_context():
-    try:
-        db.engine.connect()
-        print("Conexión exitosa a la base de datos")
-    except Exception as e:
-        print("Error de conexión a la base de datos:", e)
-
-
-from routes import auth_bp  
-app.register_blueprint(auth_bp, url_prefix='/auth')
+def create_app():
+    from routes import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    return app
 
 if __name__ == '__main__':
+    create_app()
     app.run(debug=True, host='0.0.0.0', port=Config.LOGIN_SERVICE_PORT)
