@@ -52,7 +52,7 @@ jobs:
 
             
             sudo docker run -d --name login-service -p 5000:5000 \
-            e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
               -e DB_URL="mysql://${{ secrets.DB_USERNAME_J}}:${{ secrets.DB_PASSWORD_MYSQL }}@${{ secrets.DB_URL_MYSQL }}:${{ secrets.DB_PORT_MYSQL }}"\
               -e CREATE_USER_SERVICE_URL="http://13.216.132.78:3000" \
