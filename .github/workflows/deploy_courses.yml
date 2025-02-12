@@ -20,12 +20,12 @@ jobs:
 
       - name: Build and push images
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:lastest ./backend/CoursesManagement/createCourses
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2 ./backend/CoursesManagement/deleteCourse
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2 ./backend/CoursesManagement/listCourse
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2 ./backend/CoursesManagement/updateCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1 ./backend/CoursesManagement/createCourses
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1 ./backend/CoursesManagement/deleteCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1 ./backend/CoursesManagement/listCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1 ./backend/CoursesManagement/updateCourse
           
-          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:lastest
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1
           docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1
           docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1
           docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1
@@ -56,7 +56,7 @@ jobs:
             sudo docker rm create-course delete-course list-course update-course || true
 
             # Descargar nuevas imágenes
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:lastest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1
@@ -66,7 +66,7 @@ jobs:
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
-              ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:lastest
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1
 
             sudo docker run -d --name delete-course -p 4001:4001 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
