@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [loading, setLoading] = useState(false); // Estado para manejar el indicador de carga
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,26 +16,40 @@ const LoginForm = () => {
       return;
     }
 
-    setLoading(true);
-
     try {
       const response = await fetch("http://23.20.89.9:5000/auth/login", {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ username, password })
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
         setSuccessMessage('Inicio de sesión exitoso');
+        localStorage.setItem('token', data.token); // Guarda el token recibido
         setUsername('');
         setPassword('');
         setErrorMessage('');
-        navigate('/dashboard'); 
+        
+        // Aquí puedes hacer la solicitud para la ruta protegida
+        const token = localStorage.getItem('token');
+        const protectedResponse = await fetch('http://23.20.89.9:5000/protected-route', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (protectedResponse.ok) {
+          const protectedData = await protectedResponse.json();
+          console.log('Datos protegidos:', protectedData); // Procesa los datos recibidos
+        } else {
+          console.log('Error al acceder a la ruta protegida');
+        }
+
+        navigate('/dashboard'); // Redirige al dashboard
       } else {
         setErrorMessage(data.error || 'Error al iniciar sesión');
         setSuccessMessage('');
@@ -45,9 +58,11 @@ const LoginForm = () => {
       console.error('Error al iniciar sesión:', error);
       setErrorMessage('Hubo un error al procesar tu solicitud');
       setSuccessMessage('');
-    } finally {
-      setLoading(false); // Desactivamos el indicador de carga
     }
+  };
+
+  const handleBack = () => {
+    navigate('/');  
   };
 
   return (
@@ -75,14 +90,17 @@ const LoginForm = () => {
           />
         </div>
         <div className="form-group">
-          <button type="submit" disabled={loading}>
-            {loading ? 'Cargando...' : 'Iniciar Sesión'}
-          </button>
+          <button type="submit">Iniciar Sesión</button>
         </div>
 
         {errorMessage && <div id="error-message" className="error-message">{errorMessage}</div>}
         {successMessage && <div id="success-message" className="success-message">{successMessage}</div>}
       </form>
+
+      {/* Botón de regresar */}
+      <button onClick={handleBack} style={{ marginTop: '20px' }}>
+        Regresar
+      </button>
     </div>
   );
 };

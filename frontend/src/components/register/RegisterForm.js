@@ -43,9 +43,9 @@ const RegisterForm = () => {
     }
   };
 
-  
+  // Función para regresar
   const handleBack = () => {
-    navigate('/');  
+    navigate('/');  // Redirige a la página principal o a la página que desees
   };
 
   return (

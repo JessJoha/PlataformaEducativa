@@ -11,7 +11,7 @@ load_dotenv()
 app = Flask(__name__)
 
 
-CORS(app, resources={r"/auth/*": {"origins": "*"}})
+CORS(app, origins=["http://localhost:8000"])
 
 
 app.config.from_object(Config)
