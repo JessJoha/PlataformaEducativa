@@ -1,17 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import Register from "./pages/Register";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RegisterForm from './components/register/RegisterForm';  
+import HomePage from './HomePage';
 
-const App = () => {
+function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegisterForm />} />
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;
