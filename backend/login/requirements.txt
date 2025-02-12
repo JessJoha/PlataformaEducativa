@@ -6,3 +6,5 @@ pyjwt
 Flask-SQLAlchemy
 bcrypt
 requests
+flask-cors
+

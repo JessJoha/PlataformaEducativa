@@ -23,7 +23,7 @@ db.init_app(app)
 def create_app():
     from routes import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    return app
+    return app  
 
 
 if __name__ == '__main__':
