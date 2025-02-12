@@ -11,6 +11,7 @@ auth_bp = Blueprint('auth_bp', __name__)
 @auth_bp.route('/login', methods=['POST'])
 @cross_origin(origin='*')
 def login():
+    print("Ruta /login accedida")
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')

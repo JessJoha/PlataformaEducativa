@@ -4,9 +4,12 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
+        setError(null); // Clear previous error
 
         const data = {
             username: username,
@@ -23,15 +26,21 @@ const LoginForm = () => {
             });
 
             const result = await response.json();
+
             if (response.ok) {
-                // Maneja el éxito, por ejemplo, guarda el token en localStorage
+                // If successful, save token and redirect (or display success)
                 localStorage.setItem('token', result.token);
                 console.log('Login exitoso');
+                // You might want to redirect the user to a dashboard or home page
+                // Example: window.location.href = "/home";
             } else {
-                setError(result.message || 'Error al iniciar sesión');
+                // If an error occurs, show error message
+                setError(result.message || `Error: ${response.status}`);
             }
         } catch (error) {
             setError('Error de conexión');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -57,9 +66,11 @@ const LoginForm = () => {
                         required
                     />
                 </div>
-                <button type="submit">Iniciar sesión</button>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+                </button>
             </form>
-            {error && <div>{error}</div>}
+            {error && <div style={{ color: 'red' }}>{error}</div>}
         </div>
     );
 };
