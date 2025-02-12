@@ -3,11 +3,13 @@ import bcrypt
 import jwt
 import datetime
 from config import Config
+from flask_cors import cross_origin
 from models import User  
 
 auth_bp = Blueprint('auth_bp', __name__)
 
 @auth_bp.route('/login', methods=['POST'])
+@cross_origin(origin='*')
 def login():
     data = request.get_json()
     username = data.get('username')
