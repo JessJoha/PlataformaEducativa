@@ -13,22 +13,22 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Log in to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME_J }}
           password: ${{ secrets.DOCKERHUB_PASSWORD_J }}
 
       - name: Build and push images
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2 ./backend/CoursesManagment/createCourse
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2 ./backend/CoursesManagment/deleteCourse
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2 ./backend/CoursesManagment/listCourse
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2 ./backend/CoursesManagment/updateCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2 ./backend/CoursesManagement/createCourses
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2 ./backend/CoursesManagement/deleteCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2 ./backend/CoursesManagement/listCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2 ./backend/CoursesManagement/updateCourse
           
-          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2
-          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2
-          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2
-          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1
 
   deploy:
     needs: build-and-push
@@ -56,32 +56,32 @@ jobs:
             sudo docker rm create-course delete-course list-course update-course || true
 
             # Descargar nuevas imágenes
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1
 
             # Ejecutar los contenedores con los puertos correspondientes
-            sudo docker run -d --name create-course -p 3100:3100 \
+            sudo docker run -d --name create-course -p 4000:4000 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
-              ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v1
 
-            sudo docker run -d --name delete-course -p 3101:3101 \
+            sudo docker run -d --name delete-course -p 4001:4001 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
-              ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1
 
-            sudo docker run -d --name list-course -p 3103:3103 \
+            sudo docker run -d --name list-course -p 4002:4002 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
-              ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1
 
-            sudo docker run -d --name update-course -p 3104:3104 \
+            sudo docker run -d --name update-course -p 4003:4003 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
-              ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1
