@@ -1,0 +1,87 @@
+name: Deploy Courses Microservices
+
+on:
+  push:
+    branches:
+      - test  
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME_J }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD_J }}
+
+      - name: Build and push images
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2 ./backend/CoursesManagment/createCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2 ./backend/CoursesManagment/deleteCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2 ./backend/CoursesManagment/listCourse
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2 ./backend/CoursesManagment/updateCourse
+          
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2
+          docker push ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Courses Microservices to AWS EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS_COURSES }}
+          username: ubuntu  
+          key: ${{ secrets.EC2_SSH_KEY_COURSES }}
+          script: |
+            # Instalar Docker si no está presente
+            if ! command -v docker &> /dev/null
+            then
+              sudo apt update
+              sudo apt install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ubuntu
+            fi
+
+            # Detener y eliminar contenedores antiguos
+            sudo docker stop create-course delete-course list-course update-course || true
+            sudo docker rm create-course delete-course list-course update-course || true
+
+            # Descargar nuevas imágenes
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2
+
+            # Ejecutar los contenedores con los puertos correspondientes
+            sudo docker run -d --name create-course -p 3100:3100 \
+              -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:v2
+
+            sudo docker run -d --name delete-course -p 3101:3101 \
+              -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v2
+
+            sudo docker run -d --name list-course -p 3103:3103 \
+              -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v2
+
+            sudo docker run -d --name update-course -p 3104:3104 \
+              -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD_MYSQL }}" \
+              ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v2
