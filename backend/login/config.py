@@ -11,5 +11,5 @@ class Config:
     ACCESS_TOKEN_EXPIRATION = int(os.environ.get('ACCESS_TOKEN_EXPIRATION', 3600))
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'info')
     LOGIN_SERVICE_PORT = int(os.environ.get('LOGIN_SERVICE_PORT', 5000))
-    DB_NAME = os.getenv('DB_NAME', 'usersdb')
+    DB_NAME = os.getenv('DB_NAME')
     print("DB_URL:", os.environ.get('DB_URL'))
