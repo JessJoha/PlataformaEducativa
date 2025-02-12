@@ -6,6 +6,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Estado para manejar el indicador de carga
   const navigate = useNavigate(); 
 
   const handleSubmit = async (event) => {
@@ -15,6 +16,8 @@ const LoginForm = () => {
       setErrorMessage('El nombre de usuario y la contraseña son requeridos');
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch("http://23.20.89.9:5000/auth/login", {
@@ -28,14 +31,11 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-       
         localStorage.setItem('token', data.token);
         setSuccessMessage('Inicio de sesión exitoso');
         setUsername('');
         setPassword('');
         setErrorMessage('');
-        
-        
         navigate('/dashboard'); 
       } else {
         setErrorMessage(data.error || 'Error al iniciar sesión');
@@ -45,6 +45,8 @@ const LoginForm = () => {
       console.error('Error al iniciar sesión:', error);
       setErrorMessage('Hubo un error al procesar tu solicitud');
       setSuccessMessage('');
+    } finally {
+      setLoading(false); // Desactivamos el indicador de carga
     }
   };
 
@@ -73,7 +75,9 @@ const LoginForm = () => {
           />
         </div>
         <div className="form-group">
-          <button type="submit">Iniciar Sesión</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Cargando...' : 'Iniciar Sesión'}
+          </button>
         </div>
 
         {errorMessage && <div id="error-message" className="error-message">{errorMessage}</div>}

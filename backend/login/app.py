@@ -2,21 +2,30 @@ from flask import Flask
 from config import Config
 from dotenv import load_dotenv
 import pymysql
-from extensions import db 
+from flask_cors import CORS
+from extensions import db
+
+load_dotenv()
+
+
+app = Flask(__name__)
+
+
+CORS(app, resources={r"/auth/*": {"origins": "*"}})
+
+
+app.config.from_object(Config)
 
 
 pymysql.install_as_MySQLdb()
-load_dotenv()
+db.init_app(app)
 
-app = Flask(__name__)
-app.config.from_object(Config)
-
-db.init_app(app) 
 
 def create_app():
     from routes import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
     return app
+
 
 if __name__ == '__main__':
     create_app()
