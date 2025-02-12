@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Reemplazamos useHistory con useNavigate
+import { useNavigate } from 'react-router-dom'; 
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
-  const navigate = useNavigate(); // Usamos useNavigate en lugar de useHistory
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +17,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch("http://13.216.132.78:3000/users/register", {
+      const response = await fetch("http://23.20.89.9:5000/auth/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,29 +28,29 @@ const RegisterForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccessMessage('Usuario registrado exitosamente');
+       
+        localStorage.setItem('token', data.token);
+        setSuccessMessage('Inicio de sesión exitoso');
         setUsername('');
         setPassword('');
         setErrorMessage('');
+        
+        
+        navigate('/dashboard'); 
       } else {
-        setErrorMessage(data.error || 'Error al registrar el usuario');
+        setErrorMessage(data.error || 'Error al iniciar sesión');
         setSuccessMessage('');
       }
     } catch (error) {
-      console.error('Error al registrar el usuario:', error);
+      console.error('Error al iniciar sesión:', error);
       setErrorMessage('Hubo un error al procesar tu solicitud');
       setSuccessMessage('');
     }
   };
 
-  
-  const handleBack = () => {
-    navigate('/');  
-  };
-
   return (
-    <div className="register-form">
-      <h1>Registro de Usuario</h1>
+    <div className="login-form">
+      <h1>Iniciar Sesión</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="username">Nombre de usuario</label>
@@ -73,19 +73,14 @@ const RegisterForm = () => {
           />
         </div>
         <div className="form-group">
-          <button type="submit">Registrar</button>
+          <button type="submit">Iniciar Sesión</button>
         </div>
 
         {errorMessage && <div id="error-message" className="error-message">{errorMessage}</div>}
         {successMessage && <div id="success-message" className="success-message">{successMessage}</div>}
       </form>
-
-      {/* Botón de regresar */}
-      <button onClick={handleBack} style={{ marginTop: '20px' }}>
-        Regresar
-      </button>
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

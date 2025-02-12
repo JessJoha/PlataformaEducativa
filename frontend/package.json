@@ -15,7 +15,6 @@
     "react-router-dom": "^7.1.5",
     "react-scripts": "^5.0.1"
   },
-  "proxy": "http://13.216.132.78:3000",
   "browserslist": {
     "production": [
       ">0.2%",
