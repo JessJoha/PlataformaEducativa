@@ -1,76 +1,94 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        setError(null); // Clear previous error
+        setErrorMessage('');
 
-        const data = {
-            username: username,
-            password: password
-        };
+        if (!username || !password) {
+            setErrorMessage('El nombre de usuario y la contraseña son requeridos');
+            setLoading(false);
+            return;
+        }
 
         try {
-            const response = await fetch('http://23.20.89.9:5000/auth/login', {
+            const response = await fetch(`${process.env.REACT_APP_LOGIN_USER}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ username, password }),
+                credentials: 'include'
             });
 
-            const result = await response.json();
+            const data = await response.json();
 
             if (response.ok) {
-                // If successful, save token and redirect (or display success)
-                localStorage.setItem('token', result.token);
-                console.log('Login exitoso');
-                // You might want to redirect the user to a dashboard or home page
-                // Example: window.location.href = "/home";
+                localStorage.setItem('token', data.token);
+                navigate('/dashboard'); // Redirige al dashboard después del login exitoso
             } else {
-                // If an error occurs, show error message
-                setError(result.message || `Error: ${response.status}`);
+                setErrorMessage(data.error || 'Error al iniciar sesión');
             }
         } catch (error) {
-            setError('Error de conexión');
+            console.error('Error al iniciar sesión:', error);
+            setErrorMessage('Error de conexión con el servidor');
         } finally {
             setLoading(false);
         }
     };
 
+    const handleBack = () => {
+        navigate('/');
+    };
+
     return (
-        <div>
-            <h1>Iniciar sesión</h1>
+        <div className="login-form">
+            <h1>Iniciar Sesión</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Usuario:</label>
+                <div className="form-group">
+                    <label htmlFor="username">Nombre de usuario</label>
                     <input
                         type="text"
+                        id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label>Contraseña:</label>
+                <div className="form-group">
+                    <label htmlFor="password">Contraseña</label>
                     <input
                         type="password"
+                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-                </button>
+                <div className="form-group">
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                    </button>
+                </div>
+
+                {errorMessage && (
+                    <div id="error-message" className="error-message">
+                        {errorMessage}
+                    </div>
+                )}
             </form>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
+
+            <button onClick={handleBack} style={{ marginTop: '20px' }}>
+                Regresar
+            </button>
         </div>
     );
 };

@@ -1,51 +1,75 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const [protectedData, setProtectedData] = useState(null);
-  const [error, setError] = useState(null);
+    const [username, setUsername] = useState('');
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProtectedData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setError('No token found');
-        return;
-      }
-
-      try {
-        const response = await fetch('http://23.20.89.9:5000/protected-route', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setProtectedData(data);  // Guarda los datos protegidos
-        } else {
-          setError('Failed to fetch protected data');
+    useEffect(() => {
+        
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
         }
-      } catch (err) {
-        setError('Error: ' + err.message);
-      }
+
+       
+       
+        try {
+            
+            setUsername('Usuario');
+        } catch (error) {
+            console.error('Error al obtener datos del usuario:', error);
+            handleLogout();
+        }
+    }, [navigate]);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
     };
 
-    fetchProtectedData();
-  }, []);
+    return (
+        <div style={{ padding: '20px' }}>
+            <header style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '20px' 
+            }}>
+                <h1>Bienvenido, {username}</h1>
+                <button 
+                    onClick={handleLogout}
+                    style={{
+                        padding: '10px 20px',
+                        backgroundColor: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    Cerrar Sesión
+                </button>
+            </header>
 
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      {error && <p>{error}</p>}
-      {protectedData ? (
-        <pre>{JSON.stringify(protectedData, null, 2)}</pre>
-      ) : (
-        <p>Loading protected data...</p>
-      )}
-    </div>
-  );
+            <main>
+                <div style={{ 
+                    backgroundColor: '#f8f9fa',
+                    padding: '20px',
+                    borderRadius: '8px'
+                }}>
+                    <h2>Panel de Control</h2>
+                    <p>Esta es tu área personal. Aquí podrás:</p>
+                    <ul>
+                        <li>Ver tu información personal</li>
+                        <li>Acceder a tus recursos</li>
+                        <li>Gestionar tu cuenta</li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    );
 };
 
 export default Dashboard;
