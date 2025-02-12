@@ -4,7 +4,7 @@ import jwt
 import datetime
 from config import Config
 from flask_cors import cross_origin
-from models import User  
+from model import User
 
 auth_bp = Blueprint('auth_bp', __name__)
 
