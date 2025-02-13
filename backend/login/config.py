@@ -4,7 +4,7 @@ from jwt_config import JWT_SECRET
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') 
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET')
-    CREATE_USER_SERVICE_URL = os.environ.get('CREATE_USER_SERVICE_URL')
+    CREATE_USER_SERVICE_URL = os.environ.get('CREATE_USER_SERVICE_URL', 'https://6qyi13rtad.execute-api.us-east-1.amazonaws.com/users/register')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DB_URL')  
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CORS_ALLOWED_ORIGIN = os.environ.get('CORS_ALLOWED_ORIGIN', '*')

@@ -4,6 +4,6 @@ const { deleteEvaluation } = require('../controller/deleteEvaluationController')
 
 const router = express.Router();
 
-router.delete('/delete/:id', deleteEvaluation);
+router.delete('/delete/:evaluationId', deleteEvaluation);
 
 module.exports = router;
