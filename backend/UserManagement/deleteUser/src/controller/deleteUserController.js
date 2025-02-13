@@ -1,4 +1,3 @@
-const { deleteUserById } = require('../model/deleteUserModel');
 const { deleteUserById } = require('../service/userDeleteService');
 const jwt = require('jsonwebtoken');
 
