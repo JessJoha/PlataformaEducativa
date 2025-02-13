@@ -41,7 +41,7 @@ jobs:
           username: ubuntu  
           key: ${{ secrets.EC2_SSH_KEY_USERS }}
           script: |
-            # Instalar Docker si no está presente
+            # Install Docker if not present
             if ! command -v docker &> /dev/null
             then
               sudo apt update
@@ -51,17 +51,17 @@ jobs:
               sudo usermod -aG docker ubuntu
             fi
 
-            # Detener y eliminar contenedores antiguos
+            # Stop and remove old containers
             sudo docker stop create-user delete-user list-user update-user || true
             sudo docker rm create-user delete-user list-user update-user || true
 
-            # Descargar nuevas imágenes
+            # Download new images
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-user:v2
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-user:v2
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/list-user:v2
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/update-user:v2
 
-            # Ejecutar los contenedores con los puertos correspondientes
+            # Run containers with corresponding ports
             sudo docker run -d --name create-user -p 3000:3000 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \

@@ -41,7 +41,7 @@ jobs:
           username: ubuntu  
           key: ${{ secrets.EC2_SSH_KEY_COURSES }}
           script: |
-            # Instalar Docker si no está presente
+            # Install Docker if not present
             if ! command -v docker &> /dev/null
             then
               sudo apt update
@@ -51,17 +51,17 @@ jobs:
               sudo usermod -aG docker ubuntu
             fi
 
-            # Detener y eliminar contenedores antiguos
+            # Stop and remove old containers
             sudo docker stop create-course delete-course list-course update-course || true
             sudo docker rm create-course delete-course list-course update-course || true
 
-            # Descargar nuevas imágenes
+            # Download new images
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/create-course:lastest
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/delete-course:v1
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/list-course:v1
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME_J }}/update-course:v1
 
-            # Ejecutar los contenedores con los puertos correspondientes
+            # Run the containers with the corresponding ports
             sudo docker run -d --name create-course -p 4000:4000 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \

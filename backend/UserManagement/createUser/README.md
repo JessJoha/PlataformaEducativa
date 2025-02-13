@@ -41,7 +41,7 @@ Creates a new user
 ## Installation & Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/https://github.com/JessJoha/PlataformaEducativa
+   git clone https://github.com/https://github.com/JessJoha/PlataformaEducativa.git
    ```
 2. Navigate to the microservice directory:
    ```bash
