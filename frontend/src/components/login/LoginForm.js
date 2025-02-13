@@ -20,19 +20,22 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_LOGIN_USER}/auth/login`, {
+            const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Origin': 'http://localhost:8000'
                 },
-                body: JSON.stringify({ username, password }),
+                mode: 'cors',
+                credentials: 'include',
+                body: JSON.stringify({ username, password })
             });
 
             const data = await response.json();
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                navigate('/dashboard'); // Redirige al dashboard después del login exitoso
+                navigate('/dashboard');
             } else {
                 setErrorMessage(data.error || 'Error al iniciar sesión');
             }
