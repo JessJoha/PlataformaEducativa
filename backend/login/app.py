@@ -10,26 +10,14 @@ load_dotenv()
 app = Flask(__name__)
 
 
-cors = CORS(app, resources={
-    r"/*": {
-        "origins": "http://localhost:8000",
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"],
-        "supports_credentials": True
-    }
-})
+CORS(app, resources={r"/*": {
+    "origins": "*",
+    "methods": ["GET", "POST", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"]
+}})
 
 app.config.from_object(Config)
-
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8000')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
-    return response
-
-pymysql.install_as_MySQLdb()
+pymysql.install_as_MySQLdb()    
 db.init_app(app)
 
 

@@ -46,33 +46,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
-exports.loginUser = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-      return res.status(400).json({ error: "Username y password son requeridos" });
-    }
-
-    const user = await User.findOne({ where: { username } });
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const validPassword = await bcrypt.compare(password, user.password); 
-    if (!validPassword) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
-
-    res.json({ message: 'Login successful', user: user });
-  } catch (error) {
-    res.status(500).json({ error: 'Error during login' });
-  }
-};
-
-
 exports.createAdmin = async (req, res) => {
   try {
     const { username, password } = req.body;
