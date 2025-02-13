@@ -17,16 +17,12 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_USER}/users/register`, {
+      const response = await fetch(`${process.env.REACT_APP_CREATE_USER}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type'
         },
         credentials: 'include',
-        mode: 'cors',
         body: JSON.stringify({ username, password })
       });
 
@@ -37,6 +33,8 @@ const RegisterForm = () => {
         setUsername('');
         setPassword('');
         setErrorMessage('');
+        
+        setTimeout(() => navigate('/login'), 2000);
       } else {
         setErrorMessage(data.error || 'Error al registrar el usuario');
         setSuccessMessage('');

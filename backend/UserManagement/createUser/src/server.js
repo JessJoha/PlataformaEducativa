@@ -5,7 +5,15 @@ const app = express();
 const userRoutes = require('./routes/userRoutes'); 
 require('./config/db'); 
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:8000',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
