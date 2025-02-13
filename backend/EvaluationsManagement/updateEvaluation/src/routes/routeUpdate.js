@@ -3,6 +3,6 @@ const { updateEvaluation } = require('../controller/updateEvaluationController')
 
 const router = express.Router();
 
-router.put('/update/:evaluationId', updateEvaluation);
+router.put('/update/:nameEvaluation', updateEvaluation);
 
 module.exports = router;
