@@ -51,17 +51,17 @@ jobs:
               sudo usermod -aG docker ubuntu
             fi
 
-            # Detener y eliminar contenedores antiguos
+            # Stop and remove old containers
             sudo docker stop create-evaluation delete-evaluation list-evaluation update-evaluation || true
             sudo docker rm create-evaluation delete-evaluation list-evaluation update-evaluation || true
 
-            # Descargar nuevas imágenes
+            # Download new images
             sudo docker pull andy3dub/create-evaluation:v2
             sudo docker pull andy3dub/delete-evaluation:v2
             sudo docker pull andy3dub/list-evaluation:v2
             sudo docker pull andy3dub/update-evaluation:v2
 
-            # Ejecutar los contenedores con los puertos correspondientes
+            # Run containers with corresponding ports
             sudo docker run -d --name create-evaluation -p 4006:4006 \
               -e DB_URL="${{ secrets.DB_URL_MYSQL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME_J }}" \
