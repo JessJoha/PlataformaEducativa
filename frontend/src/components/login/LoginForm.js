@@ -24,8 +24,11 @@ const LoginForm = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Origin': 'http://localhost:8000'
                 },
-                body: JSON.stringify({ username, password }),
+                mode: 'cors',
+                credentials: 'include',
+                body: JSON.stringify({ username, password })
             });
 
             const data = await response.json();
