@@ -20,14 +20,9 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/login`, {
+            const response = await fetch(`${process.env.REACT_APP_LOGIN_URL}/auth/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Origin': 'http://localhost:8000'
-                },
                 mode: 'cors',
-                credentials: 'include',
                 body: JSON.stringify({ username, password })
             });
 

@@ -32,7 +32,7 @@ exports.updateUser = async (req, res) => {
 
     
     const updatedUser = await updateUserById(userId, username, hashedPassword, role);
-
+    
     return res.status(200).json({ message: 'Usuario actualizado correctamente', user: updatedUser });
   } catch (error) {
     console.error(error);

@@ -20,12 +20,9 @@ const RegisterForm = () => {
       const response = await fetch(`${process.env.REACT_APP_CREATE_USER}/register`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Origin': 'http://localhost:8000'
-        },
-        mode: 'cors',
-        credentials: 'include',
-        body: JSON.stringify({ username, password })
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password })
     });
 
       const data = await response.json();

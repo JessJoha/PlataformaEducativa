@@ -29,7 +29,7 @@ const createEvaluation = async (req, res) => {
           optionText: option.option_text,
           isCorrect: option.is_correct,
           question_id: newQuestion.id
-        });
+        }); 
       }
     }
 

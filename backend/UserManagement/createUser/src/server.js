@@ -7,7 +7,7 @@ require('./config/db');
 
 const corsOptions = {
   origin: 'http://localhost:8000',
-  methods: ['GET', 'POST', 'OPTIONS'],
+  methods: ['GET', 'POST', 'OPTIONS, PUT, DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200
