@@ -16,13 +16,14 @@ const RegisterForm = () => {
       return;
     }
 
+
     try {
-      const response = await fetch("http://13.216.132.78:3000/users/register", {
+      const response = await fetch(`${process.env.REACT_APP_CREATE_USER}/users/register`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
