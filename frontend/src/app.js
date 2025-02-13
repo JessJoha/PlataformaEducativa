@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterForm from './components/register/RegisterForm';  
 import LoginForm from './components/login/LoginForm';
-import Dashboard from './components/Dashboard';  {/* Corregido: LoginForm en vez de RegisterForm */}
+import Dashboard from './components/Dashboard';
 import HomePage from './HomePage';
 
 function App() {

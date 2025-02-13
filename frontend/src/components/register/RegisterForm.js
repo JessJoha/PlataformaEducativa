@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Reemplazamos useHistory con useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
-  const navigate = useNavigate(); // Usamos useNavigate en lugar de useHistory
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,14 +16,13 @@ const RegisterForm = () => {
       return;
     }
 
-
     try {
-      const response = await fetch(`${process.env.REACT_APP_CREATE_USER}/users/register`, {
+      const response = await fetch(`${process.env.REACT_APP_CREATE_USER}`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password })
       });
 
       const data = await response.json();
@@ -44,9 +43,8 @@ const RegisterForm = () => {
     }
   };
 
-  // Función para regresar
   const handleBack = () => {
-    navigate('/');  // Redirige a la página principal o a la página que desees
+    navigate('/');
   };
 
   return (
@@ -81,7 +79,6 @@ const RegisterForm = () => {
         {successMessage && <div id="success-message" className="success-message">{successMessage}</div>}
       </form>
 
-      {/* Botón de regresar */}
       <button onClick={handleBack} style={{ marginTop: '20px' }}>
         Regresar
       </button>
