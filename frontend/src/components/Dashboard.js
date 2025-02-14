@@ -28,9 +28,15 @@ const Dashboard = () => {
             });
         } catch (error) {
             console.error('Error al decodificar el token:', error);
-            handleLogout();
+            handleLogout(); 
         }
     }, [navigate]);
+
+    
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
 
     const fetchCourses = async (token) => {
         try {
@@ -67,21 +73,19 @@ const Dashboard = () => {
             });
 
             if (response.ok) {
+                const data = await response.json();
+                console.log('Curso creado exitosamente:', data);  
                 setShowCreateModal(false);
                 setNewCourse({ title: '', description: '', accessKey: '' });
                 fetchCourses(token);
-                
             } else {
+                const errorData = await response.json();
+                console.error('Error al crear curso:', errorData);
                 throw new Error('Error al crear curso');
             }
         } catch (error) {
             console.error('Error al crear curso:', error);
         }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
     };
 
     if (user.role === 'admin') {
