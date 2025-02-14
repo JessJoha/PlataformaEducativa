@@ -35,9 +35,12 @@ const Dashboard = () => {
     const fetchCourses = async (token) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_COURSE_LIST}/courses/courses`, {
+                method:'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify(courseData),
+                mode:'cors'
             });
             if (response.ok) {
                 const data = await response.json();
@@ -59,13 +62,17 @@ const Dashboard = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(newCourse)
+                body: JSON.stringify(newCourse),
+                mode: 'cors'
             });
 
             if (response.ok) {
                 setShowCreateModal(false);
                 setNewCourse({ title: '', description: '', accessKey: '' });
                 fetchCourses(token);
+                
+            } else {
+                throw new Error('Error al crear curso');
             }
         } catch (error) {
             console.error('Error al crear curso:', error);
